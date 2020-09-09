@@ -14,13 +14,13 @@ class GenericTest extends ChiselFlatSpec with Checkers {
 
   val optionsManager = new TesterOptionsManager {
     testerOptions = testerOptions.copy(
-      backendName="treadle",
-//      backendName="verilator",
+//      backendName="treadle",
+      backendName="verilator",
 //      backendName="vcs",
 
 //    vcsCommandEdits = """s/\+vcs\+initreg\+random //""",
 //      moreVcsFlags=extra,
-      isVerbose=true
+      isVerbose=false
     )
   }
 }

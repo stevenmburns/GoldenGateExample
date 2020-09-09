@@ -50,4 +50,18 @@ class JohnsonCounterTester( tag: String, factory: () => JohnsonCounter) extends 
   }
 }
 
+class JohnsonCounterTopTester( tag: String, factory: () => JohnsonCounterTop) extends GenericTest {
+  behavior of s"$tag"
+  it should "compile and execute without expect violations" in {
+    check(chisel3.iotesters.Driver.execute( factory, optionsManager) { c =>
+       new PeekPokeTester(c) {
+         for ( i <- 0 until 65) {
+            step(1)
+	 }
+       }
+    })
+  }
+}
+
 class JohnsonCounterTest extends JohnsonCounterTester( "JohnsonCounter", () => new JohnsonCounter)
+class JohnsonCounterTopTest extends JohnsonCounterTopTester( "JohnsonCounterTop", () => new JohnsonCounterTop)

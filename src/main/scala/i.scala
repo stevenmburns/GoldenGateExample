@@ -17,5 +17,38 @@ class JohnsonCounter extends Module {
   state := (state << 1) | ~state(7)
 
   io.out := state
+}
 
+class JohnsonCounterMonitor extends Module {
+  val io = IO(new Bundle {
+     val inp = Input(UInt(8.W))
+  })
+
+  val state = RegInit( 0.U(4.W))
+
+  state := state +% 1.U
+
+  printf( "inp: %b state: %b", io.inp, state)
+
+  when ( state === 0.U) {
+     when ( io.inp === 0.U) {
+        printf( " Correct\n")
+     } .otherwise {
+        printf( " Incorrect\n")
+     }
+  } .otherwise {
+     printf( "\n")
+  }
+
+
+}
+
+class JohnsonCounterTop extends Module {
+  val io = IO(new Bundle {
+  })
+        
+  val dut = Module(new JohnsonCounter)
+  val mon = Module(new JohnsonCounterMonitor)
+
+  mon.io.inp := dut.io.out
 }
